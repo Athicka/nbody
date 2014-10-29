@@ -1,3 +1,7 @@
+	import javax.swing.JFrame;
+
+	import org.math.plot.*;
+
 public class orbits {
 
 	double[] xpos = new double[1000];
@@ -20,7 +24,7 @@ public class orbits {
 
 }
 	void round(){
-		
+		//still dosnt work out bounds
 	xpos[0]=1.0;
 	ypos[0]=0.0;
 	xvel[0]=0.0;
@@ -37,13 +41,27 @@ public class orbits {
 	
 	
 	xpos[loc]=xpos[i-1]+xvel[loc]*dt;				//fixed x position
-	ypos[loc]=(ypos[loc-1]*19891*9.81)/(r*r*r);
-
+	ypos[loc]=ypos[i-1]+yvel[loc]*dt;				//fixed y pos
+	
 	loc++;
 	
 	}
-	
+	graph();
 	}
-
+	
+	private void graph() {
+		 //untested
+		  // create your PlotPanel (you can use it as a JPanel)
+		  Plot2DPanel plot = new Plot2DPanel();
+		 
+		  // add a line plot to the PlotPanel
+		  plot.addLinePlot("my plot", xpos, ypos);
+		 
+		  // put the PlotPanel in a JFrame, as a JPanel
+		  JFrame frame = new JFrame("a plot panel");
+		  frame.setContentPane(plot);
+		  frame.setVisible(true);
+		
+	}
 
 }

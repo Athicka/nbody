@@ -71,4 +71,24 @@ public class orbits {
 		
 	}
 
+         public void nbody(){
+/*
+no longers mass independent
+will we have to keep track of where jupiter or locaiton of other plantets?
+using jupiter to start with 3-body program
+i see how it gets complicated sincde all planets are mving and all pulling on each other.
+
+
+force EJ = (-) G * mass J * mass E* (xpos earth - xpos jumpiter)  / distace between planets ^3
+
+repeat for y but tade out xpos with ypos for jupiter and earth
+
+xpos = earthSunOrbit - xforce 
+ypos = earthSUnOrbit - yforce;
+
+xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distance between planets ^ 3 
+ 
+
+*/          
+}
 }

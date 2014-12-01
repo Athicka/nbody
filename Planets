@@ -1,5 +1,12 @@
+import java.util.ArrayList;
 
+public class planets {
+	ArrayList<Double> AU = new ArrayList<Double>();
+	ArrayList<Double> mass = new ArrayList<Double>();
+	
+	
 
+}
 
 
 

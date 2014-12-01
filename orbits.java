@@ -31,6 +31,7 @@ public class orbits {
 	yvel[0]=2.0;
 	double dt=0.01;
 	double r=1;
+	
 	int loc= 1;
 	
 	for(double i=.01 ; i<1 ; i=i+.01){

@@ -19,7 +19,7 @@ public class orbits {
 	public static void main (String [] args){
 	
 	orbits a = new orbits();
-	a.round();
+	
 	
 
 }
@@ -90,6 +90,20 @@ ypos = earthSUnOrbit - yforce;
 xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distance between planets ^ 3 
  
 
-*/          
+*/   
+	
+	for(int i=0;i<p.length;p++){
+		 
+		for(int j=0;j<.001;j<1){
+			
+			
+			
+			
+		}
+		
+	}
+	
+	
+	
 }
 }

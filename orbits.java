@@ -9,7 +9,7 @@ public class orbits {
 	double[] xvel = new double[1000];
 	double[] yvel = new double[1000];
 	
-
+        String[] p = {"Sun","Earth","Jupiter"};
 
 
 
@@ -91,13 +91,34 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
  
 
 */   
+	double xpos[1000];
+        double ypos[1000];
+        double xvel[1000];
+        double yvel[1000];
+        double forcex;
+        double 
+        	
 	
-	for(int i=0;i<p.length;p++){
+	double dt=0.01;
+	double r=1;
+        int loc =1;
+        Planet data = new Planet();
+        
+	for(int i=1;i<p.length;i++){
 		 
 		for(int j=0;j<.001;j<1){
 			
-			
-			
+                        forcex=0;
+                        forcey=0;
+			for(int t=0;t<p.length;t++){
+                              r=sqrt((data.getXpos(p[i])*data.getXpos(p[i]))*(data.getYpos(p[t])*data.getYpos(p[t]));
+                              forcex+=-(data.getMass(p[i])*data.getMass(p[t])*(data.getXpos(p[i])-data.getXpos(p[t])))/(r*r*r);
+                              forcey+=-(data.getMass(p[i])*data.getMass(p[t])*(data.getYpos(p[i])-data.getYpos(p[t])))/(r*r*r);	
+                          
+                         } 
+    
+		         xpos[loc]=data.getXpos(p[i])+forcex;
+                         ypos[loc]=data.getYpos(p[i])+forcey;
 			
 		}
 		
@@ -107,3 +128,4 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
 	
 }
 }
+

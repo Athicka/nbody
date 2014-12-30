@@ -1,24 +1,143 @@
+
+
+
+
+
+
+
+
+
+
+
 import java.util.ArrayList;
-
+ 
 public class planets {
-	ArrayList<Double> AU = new ArrayList<Double>();
-	ArrayList<Double> mass = new ArrayList<Double>();
-	
-	
-
+            ArrayList<Double> X = new ArrayList<Double>();
+ArrayList<Double> Y = new ArrayList<Double>();
+            ArrayList<Double> mass = new ArrayList<Double>();
+            
+        // average au of planets in order going away from sun with [0] being sun
+        X.add(0);
+        X.add(.387);
+        X.add(.722);
+        X.add(1);
+        X.add(1.52);
+        X.add(5.2);
+            X.add(9.58);
+        X.add(19.2);
+        X.add(30.1);
+ 
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+            y.add(0);
+ 
+ 
+ 
+         // masses of planets in relation to earth
+        mass.add(332,946.0);
+        mass.add(.0553);
+        mass.add(.851);
+        mass.add(1);
+        mass.add(1.07);
+        mass.add(317.8);
+            mass.add(95.2);
+        mass.add(14.5);
+        mass.add(17.1);
+        
+ 
 }
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+void setXpos(String planet,Double pos){
+            
+Switch(planet){
+case “Mercury”:
+X.set(1,pos);
+break;
+case “Venus”:
+X.set(2,pos);
+break;
+case “Earth”:
+X.set(3,pos);
+break;
+case ”Mars”:
+X.set(4,pos);
+break;
+case “Jupiter”:
+X.set(5,pos);
+break;
+case “Saturn”:
+X.set(6,pos);
+break;
+case “Uranus”:
+X.set(7,pos);
+break;
+case “Neptune”:
+X.set(8,pos);
+break;
+case:  “Other”:
+X.set(9,pos);
+break;
+ 
+ 
+}
+ 
+}
+ 
+void setYpos(String planet,Double pos){
+            
+Switch(planet){
+case “Mercury”:
+Y.set(1,pos);
+break;
+case “Venus”:
+Y.set(2,pos);
+break;
+case “Earth”:
+Y.set(3,pos);
+break;
+case ”Mars”:
+Y.set(4,pos);
+break;
+case “Jupiter”:
+Y.set(5,pos);
+break;
+case “Saturn”:
+Y.set(6,pos);
+break;
+case “Uranus”:
+Y.set(7,pos);
+break;
+case “Neptune”:
+Y.set(8,pos);
+break;
+case:  “Other”:
+Y.set(9,pos);
+break;
+ 
+ 
+}
+ 
+}
+ 
+void addOther(Duble xpos, Double ypos, Double weight){
+ 
+X.add(xpos);
+Y.add(ypos);
+if(mass>1){
+ 
+mass.add(weight);
+ 
+}
+else
+mass.add(1);
+ 
+}
 
 
 

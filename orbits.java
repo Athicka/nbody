@@ -9,7 +9,10 @@ Plot2Dpanel plot = new Plot2DPanel();
  
             Scanner input = new Scanner(System.in);
         
-ArrayList<String> p = new ArrayList<String>(Arrays.asList("Sun","Earth","Jupiter");
+ArrayList<planets> p = new ArrayList<planets>();
+p.add("Sun",332,946.0, 0,0);
+p.add("Earth",1,1,0);
+p.add("Jupiter",5.2,0,1.52);
  
  
             double pi = 3.14159;
@@ -118,27 +121,27 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
             
             double r;
         
-        Planet data = new Planet();
+ 
         
-            for(int i=1;i<p.length;i++){
+         for(int i=1;i<p.length;i++){
                          
-                        for(double j=.001;j<1;j+=.001){
+             for(double j=.001;j<1;j+=.001){
                                     
                       
-                                    for(int t=0;t<p.length;t++){
-                              forcex=0;
-                              forcey=0;
-                              r=sqrt((data.getXpos(p.get(i))*data.getXpos(p.get(i)))*(data.getYpos(p[t])*data.getYpos(p[t]));
-                              forcex=-(data.getMass(p.get(i))*data.getMass(p[t])*(data.getXpos(p.get(i))-data.getXpos(p[t])))/(r*r*r);
-                              forcey=-(data.getMass(p.get(i))*data.getMass(p[t])*(data.getYpos(p.get(i))-data.getYpos(p[t])))/(r*r*r);            
+             for(int t=0;t<p.length;t++){
+             forcex=0;
+             forcey=0;
+             r=sqrt(p.get(i).getXpos()*p.get(i).getXpos())*(p.get(t).getYpos()*(p.get(t).getYpos());
+             forcex=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getXpos())-p.get(t).getYpos())/(r*r*r);
+             forcey=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getYpos())-p.get(t).getYpos())/(r*r*r);           
                           
-                              xpos=data.getXpos(p.get(i))+forcex;
-                                      data.setXpos(p.get(i),xpos);
-                              ypos=data.getYpos(p.get(i))+forcey;
-                              data.setYpos(p.get(i),ypos);
+                 xpos=p.get(i).getXpos()+forcex;
+                 p.get(i).setXpos(xpos);
+                 ypos=p.get(i).getYpos()+forcey;
+                 p.get(i).setYpos(ypos);
                               
                                     }
-                        graphN(data.getXpos(p.get(i)),data.getYpos(p.get(i));
+                        graphN(p.get(i).getXpos(),p.get(i).getYpos());
                         // need to calculate cumulative xvelocities. What used for???
                         }
                         

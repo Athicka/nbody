@@ -1,14 +1,13 @@
 import javax.swing.JFrame;
-import java.util.Scanner;
+
 import java.util.ArrayList;
- 
-            import org.math.plot.*;
+//import org.math.plot.*;
            
  
 public class orbits {
  
 
-Plot2Dpanel plot = new Plot2DPanel();
+//Plot2Dpanel plot = new Plot2DPanel();
   JFrame frame = new JFrame("");
             
         
@@ -20,20 +19,18 @@ ArrayList<planets> p = new ArrayList<planets>();
  
  
             public static void main (String [] args){
-            p.add(new planets("Sun",332946.0, 0.0,0.0));
- p.add(new planets("Earth",1.0,1.0,0.0));
-p.add(new planets("Jupiter",5.2,0.0,1.52));
- 
+            
             orbits a = new orbits();
             
+            a.nbody();
             
  
 }
             void round(){
-            double[] xpos = new double[1000];
-            double[] ypos = new double[1000];
-            double[] xvel = new double[1000];
-            double[] yvel = new double[1000];
+            Double[] xpos = new Double[1000];
+            Double[] ypos = new Double[1000];
+            Double[] xvel = new Double[1000];
+            Double[] yvel = new Double[1000];
             
             xpos[0]=1.0;
             ypos[0]=0.0;
@@ -59,10 +56,10 @@ p.add(new planets("Jupiter",5.2,0.0,1.52));
             loc++;
             
             }
-            graph();
+           // graph2(xpos,ypos);
             }
-            
-            private void grap2() {
+            /*
+            private void graph2(Double [] xpos, Double[] ypos) {
                          
                           // create your PlotPanel (you can use it as a JPanel)
                           Plot2DPanel plot = new Plot2DPanel();
@@ -81,7 +78,7 @@ p.add(new planets("Jupiter",5.2,0.0,1.52));
                           frame.setSize(600, 600);
                         
             }
-        
+    
         private void graphN(double xpos,double ypos){
                   double[] xposs = new double[1];
                   double[] yposs = new double[1];
@@ -93,7 +90,7 @@ p.add(new planets("Jupiter",5.2,0.0,1.52));
  
  
  
-         }
+         }    */
  
 private void nbody(){
 /*
@@ -113,7 +110,11 @@ ypos = earthSUnOrbit - yforce;
 xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distance between planets ^ 3
  
  
-*/  
+*/  p.add(new planets("Sun",332946.0, 0.0,0.0));
+p.add(new planets("Earth",1.0,1.0,0.0));
+p.add(new planets("Jupiter",5.2,0.0,1.52));
+Double [][] txpos = new Double[p.size()][1000];
+Double [][] typos = new Double[p.size()][1000];
             double xpos;
         double ypos;
         double xvel;
@@ -126,42 +127,55 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
             double r;
         
  
-        
-         for(int i=1;i<p.length;i++){
-                         
-             for(double j=.001;j<1;j+=.001){
-                                    
+          
+         for(int i=1;i<p.size();i++){
+        	loc=0;
+           //  for(double j=.001;j<1;j+=.001){
+                                 
                       
-             for(int t=0;t<p.length;t++){
+             for(int t=0;t<p.size();t++){
+            	 if(i!=t){
              forcex=0;
              forcey=0;
-             r=sqrt(p.get(i).getXpos()*p.get(i).getXpos())*(p.get(t).getYpos()*(p.get(t).getYpos());
-             forcex=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getXpos())-p.get(t).getYpos())/(r*r*r);
+             r=Math.sqrt(((p.get(i).getXpos()-p.get(t).getXpos())*(p.get(i).getXpos()-p.get(t).getXpos()))+((p.get(i).getYpos()-p.get(t).getYpos())*(p.get(i).getYpos()-p.get(t).getYpos())));
+             System.out.println(r);
+             forcex=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getXpos())-p.get(t).getXpos())/(r*r*r);
              forcey=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getYpos())-p.get(t).getYpos())/(r*r*r);           
-                          
+                    System.out.println(forcex + " " + forcey);
+                    System.out.println("");
                  xpos=p.get(i).getXpos()+forcex;
                  p.get(i).setXpos(xpos);
                  ypos=p.get(i).getYpos()+forcey;
                  p.get(i).setYpos(ypos);
                               
-                                    }
-                                    txpos[i][loc]=p.get(i).getXpos();
-                                     typos[i][loc]=p.get(i).getYpos();
-                        graphN(p.get(i).getXpos(),p.get(i).getYpos());
+                                    
+             						
+                                   
+                                    
+                        //graphN(p.get(i).getXpos(),p.get(i).getYpos());
                         // need to calculate cumulative xvelocities. What used for???
-                        }
-                        
+                       // }
+                         txpos[i-1][loc]=p.get(i).getXpos();
+                                     typos[i-1][loc]=p.get(i).getYpos(); 
+                                     loc++;
+                      }
+             }
+                                     
             }
             
             
             
 
-                          frame.setContentPane(plot);
-                          frame.setVisible(true);
+                      //    frame.setContentPane(plot);
+                        //  frame.setVisible(true);
                           //makes it appear semi centered
                           frame.setLocation(250, 250);
                           frame.setSize(600, 600);
- }
+                          for(int i=0;i<p.size()-1;i++)
+                        	  for(int t=0;t<1000;t++)
+                        		  System.out.println(txpos[i][t] + " " + typos[i][t]);
+                          
+}
 }
  
  

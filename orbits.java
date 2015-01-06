@@ -1,25 +1,29 @@
 import javax.swing.JFrame;
 import java.util.Scanner;
+import java.util.ArrayList;
  
             import org.math.plot.*;
-            JFrame frame = new JFrame("a plot panel");
+           
  
 public class orbits {
-Plot2Dpanel plot = new Plot2DPanel();
  
-            Scanner input = new Scanner(System.in);
+
+Plot2Dpanel plot = new Plot2DPanel();
+  JFrame frame = new JFrame("");
+            
         
 ArrayList<planets> p = new ArrayList<planets>();
-p.add("Sun",332,946.0, 0,0);
-p.add("Earth",1,1,0);
-p.add("Jupiter",5.2,0,1.52);
- 
+ Double [][] txpos = new Double[p.size()][1000];
+ Double [][] typos = new Double[p.size()][1000];
  
             double pi = 3.14159;
  
  
             public static void main (String [] args){
-            
+            p.add(new planets("Sun",332946.0, 0.0,0.0));
+ p.add(new planets("Earth",1.0,1.0,0.0));
+p.add(new planets("Jupiter",5.2,0.0,1.52));
+ 
             orbits a = new orbits();
             
             
@@ -117,7 +121,7 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
         double forcex;
         double forcey;
                     
-            
+            int loc =0;
             
             double r;
         
@@ -141,6 +145,8 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
                  p.get(i).setYpos(ypos);
                               
                                     }
+                                    txpos[i][loc]=p.get(i).getXpos();
+                                     typos[i][loc]=p.get(i).getYpos();
                         graphN(p.get(i).getXpos(),p.get(i).getYpos());
                         // need to calculate cumulative xvelocities. What used for???
                         }
@@ -149,24 +155,13 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
             
             
             
-}
+
                           frame.setContentPane(plot);
                           frame.setVisible(true);
                           //makes it appear semi centered
                           frame.setLocation(250, 250);
                           frame.setSize(600, 600);
- 
+ }
 }
  
  
-void addNew(){
-Double x;
-Double y;
-Double m;
-x = input.next();     // might needs tweaking
-y = input.next();
-m = input.next();
-p.add(“Other”);
-data.addOther(x,y,m);
- 
-}

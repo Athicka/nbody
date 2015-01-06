@@ -3,7 +3,7 @@ public class planets {
  Double mass;
  Double xpos;
  Double ypos;
- public planets(String name,Double Mass, Double x, Double y){
+ public planets(String Name,Double Mass, Double x, Double y){
   name = Name;
   mass = Mass;
   xpos = x;
@@ -19,12 +19,12 @@ public class planets {
  return ypos;
  }
  
- public void setXpos(Double new){
- xpos = new;
+ public void setXpos(Double newX){
+ xpos = newX;
  }
  
- public void setYpos(Double new){
- ypos = new;
+ public void setYpos(Double newY){
+ ypos = newY;
  }
  
  public Double getMass(){
@@ -32,11 +32,7 @@ public class planets {
  }
  
  public String getName(){
- return namep;
+ return name;
  }
- 
- 
- 
- 
- 
+
  }

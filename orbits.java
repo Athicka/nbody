@@ -1,3 +1,4 @@
+
 import javax.swing.JFrame;
 
 import java.util.ArrayList;
@@ -110,9 +111,9 @@ ypos = earthSUnOrbit - yforce;
 xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distance between planets ^ 3
  
  
-*/  p.add(new planets("Sun",332946.0, 0.0,0.0));
-p.add(new planets("Earth",1.0,1.0,0.0));
-p.add(new planets("Jupiter",5.2,0.0,1.52));
+*/  p.add(new planets("Sun",332946.0, 0.0,0.0,0.0,0.0));
+p.add(new planets("Earth",1.0,1.0,0.0,2.0,2.0));
+p.add(new planets("Jupiter",5.2,0.0,1.52,,1.0,1.0));
 Double [][] txpos = new Double[p.size()][1000];
 Double [][] typos = new Double[p.size()][1000];
             double xpos;
@@ -121,57 +122,71 @@ Double [][] typos = new Double[p.size()][1000];
         double yvel;
         double forcex;
         double forcey;
-                    
+                 double dt=0.01;   
             int loc =0;
             
             double r;
         
  
-          
-         for(int i=1;i<p.size();i++){
-        	loc=0;
-           //  for(double j=.001;j<1;j+=.001){
-                                 
-                      
-             for(int t=0;t<p.size();t++){
-            	 if(i!=t){
-             forcex=0;
-             forcey=0;
-             r=Math.sqrt(((p.get(i).getXpos()-p.get(t).getXpos())*(p.get(i).getXpos()-p.get(t).getXpos()))+((p.get(i).getYpos()-p.get(t).getYpos())*(p.get(i).getYpos()-p.get(t).getYpos())));
-             System.out.println(r);
-             forcex=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getXpos())-p.get(t).getXpos())/(r*r*r);
-             forcey=-(p.get(i).getMass()*p.get(t).getMass()*(p.get(i).getYpos())-p.get(t).getYpos())/(r*r*r);           
-                    System.out.println(forcex + " " + forcey);
-                    System.out.println("");
-                 xpos=p.get(i).getXpos()+forcex;
-                 p.get(i).setXpos(xpos);
-                 ypos=p.get(i).getYpos()+forcey;
-                 p.get(i).setYpos(ypos);
-                              
-                                    
-             						
-                                   
-                                    
-                        //graphN(p.get(i).getXpos(),p.get(i).getYpos());
-                        // need to calculate cumulative xvelocities. What used for???
-                       // }
-                         txpos[i-1][loc]=p.get(i).getXpos();
-                                     typos[i-1][loc]=p.get(i).getYpos(); 
-                                     loc++;
-                      }
-             }
-                                     
-            }
-            
-            
-            
+
+
+ for(double i=.01 ; i<1 ; i=i+.01 , loc++){
+
+// calculate positon of jupiter with cintripital 
+
+r = Math.squrt((p.get(2).getXpos() * p.get(2).getXpos() ) + (p.get(2).getYpos() * p.get(2).getYpos() ));
+
+
+xvel =p.get(2).getXpos() - ((4 * pi * p.get(2).getXpos() * dt )/(r*r*r));
+
+p.get(2).setXvel(xvel);
+yvel =p.get(2).getYpos() - ((4 * pi * p.get(2).getYpos() * dt )/(r*r*r));
+p.get(2).setYvel(yvel);
+xpos=p.get(2).getXpos()+p.get(2).getXvel() * dt; 
+ypos=p.get(2).getYpos()+p.get(2).getYvel() * dt; 
+p.get(2).setXpos(xpos);
+p.get(2).setYpos(xpos);
+
+txpos[2][loc]= xpos;
+typos[2][loc]= ypos;
+
+// Earth 3 body problem
+
+// Earth un effected orbit
+r = Math.squrt((p.get(1).getXpos() * p.get(1).getXpos() ) + (p.get(1).getYpos() * p.get(1).getYpos() ));
+
+xvel =p.get(1).getXpos() - ((4 * pi * p.get(1).getXpos() * dt )/(r*r*r));
+
+yvel =p.get(2).getYpos() - ((4 * pi * p.get(1).getYpos() * dt )/(r*r*r));
+
+
+// Effect added 
+
+xvel = xvel -(((4*pi*)*(4*pi*))*(p.get(2).getMass()/p.get(1).getMass()) * ((p.get(1).getXpos() - p.get(2).getXpos() ) / (r*r*r)));
+xpos = p.get(1).getXpos() + xvel * dt;
+
+yvel = yvel -(((4*pi*)*(4*pi*))*(p.get(2).getMass()/p.get(1).getMass()) * ((p.get(1).getYpos() - p.get(2).getYpos() ) / (r*r*r)));
+ypos = p.get(1).getYpos() + yvel * dt;
+
+p.get(1).setXpos(xpos);
+p.get(1).setYpos(xpos);
+
+txpos[1][loc]= xpos;
+typos[1][loc]= ypos;
+
+}
+
+
+
+
+
 
                       //    frame.setContentPane(plot);
                         //  frame.setVisible(true);
                           //makes it appear semi centered
                           frame.setLocation(250, 250);
                           frame.setSize(600, 600);
-                          for(int i=0;i<p.size()-1;i++)
+                          for(int i=i;i<p.size();i++)
                         	  for(int t=0;t<1000;t++)
                         		  System.out.println(txpos[i][t] + " " + typos[i][t]);
                           
@@ -179,3 +194,4 @@ Double [][] typos = new Double[p.size()][1000];
 }
  
  
+

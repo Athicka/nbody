@@ -3,14 +3,26 @@ public class planets {
  Double mass;
  Double xpos;
  Double ypos;
- public planets(String Name,Double Mass, Double x, Double y){
+ Double xvel;
+ Double yvel;
+ public planets(String Name,Double Mass, Double x, Double y, Double Xvel, Double Yvel){
   name = Name;
   mass = Mass;
   xpos = x;
   ypos = y;
+  xvel = Xvel;
+  yvel = Yvel; 
   
  }
+
+ public double getXvel(){
+ return xvel;
+ }
  
+ public Double getYvel(){
+ return yvel;
+ } 
+
  public double getXpos(){
  return xpos;
  }
@@ -26,6 +38,14 @@ public class planets {
  public void setYpos(Double newY){
  ypos = newY;
  }
+
+ public void setXvel(Double newX){
+ xvel = newX;
+ }
+ 
+ public void setYvel(Double newY){
+ yvel = newY;
+ }
  
  public Double getMass(){
  return mass;
@@ -36,3 +56,6 @@ public class planets {
  }
 
  }
+
+
+

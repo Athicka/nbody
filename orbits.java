@@ -17,7 +17,7 @@ ArrayList<planets> p = new ArrayList<planets>();
  Double [][] typos = new Double[p.size()][1000];
  
             double pi = 3.14159;
- 
+            Double dt = .001;
  
             public static void main (String [] args){
             
@@ -27,72 +27,7 @@ ArrayList<planets> p = new ArrayList<planets>();
             
  
 }
-            void round(){
-            Double[] xpos = new Double[1000];
-            Double[] ypos = new Double[1000];
-            Double[] xvel = new Double[1000];
-            Double[] yvel = new Double[1000];
-            
-            xpos[0]=1.0;
-            ypos[0]=0.0;
-            xvel[0]=2.0;
-            yvel[0]=2.0;
-            double dt=0.01;
-            double r=1;
-            
-            int loc= 1;
-            
-            for(double i=.01 ; i<1 ; i=i+.01){
-            System.out.println(xpos[loc-1]);
-            System.out.println(ypos[loc-1]);
-            r=Math.sqrt((xpos[loc-1]*xpos[loc-1]) + (ypos[loc-1]*ypos[loc-1]));
-            
-            xvel[loc]=xvel [loc-1]-((4*pi*xpos[loc-1]*dt)/(r*r*r));  
-            yvel[loc]=yvel [loc-1]-((4*pi*ypos[loc-1]*dt)/(r*r*r));
-            
-            
-            xpos[loc]=xpos[loc-1]+xvel[loc]*dt;                                                //fixed x pos
-            ypos[loc]=ypos[loc-1]+yvel[loc]*dt;                                                //fixed y pos
-            
-            loc++;
-            
-            }
-           // graph2(xpos,ypos);
-            }
-            /*
-            private void graph2(Double [] xpos, Double[] ypos) {
-                         
-                          // create your PlotPanel (you can use it as a JPanel)
-                          Plot2DPanel plot = new Plot2DPanel();
-                         
-                          // add a line plot to the PlotPanel
-                          plot.addLinePlot("my plot", xpos, ypos);
-                         
-                          
-                          // put the PlotPanel in a JFrame, as a JPanel
-                          JFrame frame = new JFrame("a plot panel");
-                         
-                          frame.setContentPane(plot);
-                          frame.setVisible(true);
-                          //makes it appear semi centered
-                          frame.setLocation(250, 250);
-                          frame.setSize(600, 600);
-                        
-            }
-    
-        private void graphN(double xpos,double ypos){
-                  double[] xposs = new double[1];
-                  double[] yposs = new double[1];
-                  xposs[0]=xpos;
-                  yposs[0]=ypos;
-                  
-                  plot.addScatterPlot("Orbits",xposs,yposs);
-                         
- 
- 
- 
-         }    */
- 
+     
 private void nbody(){
 /*
 no longers mass independent
@@ -113,7 +48,7 @@ xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distanc
  
 */  p.add(new planets("Sun",332946.0, 0.0,0.0,0.0,0.0));
 p.add(new planets("Earth",1.0,1.0,0.0,2.0,2.0));
-p.add(new planets("Jupiter",5.2,0.0,1.52,,1.0,1.0));
+p.add(new planets("Jupiter",5.2,0.0,1.52,1.0,1.0));
 Double [][] txpos = new Double[p.size()][1000];
 Double [][] typos = new Double[p.size()][1000];
             double xpos;
@@ -124,74 +59,132 @@ Double [][] typos = new Double[p.size()][1000];
         double forcey;
                  double dt=0.01;   
             int loc =0;
-            
+            Double [][] forcesX = new Double[p.size()][p.size()-1];
+	Double [][] forcesY = new Double[p.size()][p.size()-1];
+	
             double r;
         
  
 
-
- for(double i=.01 ; i<1 ; i=i+.01 , loc++){
-
-// calculate positon of jupiter with cintripital 
-
-r = Math.squrt((p.get(2).getXpos() * p.get(2).getXpos() ) + (p.get(2).getYpos() * p.get(2).getYpos() ));
-
-
-xvel =p.get(2).getXpos() - ((4 * pi * p.get(2).getXpos() * dt )/(r*r*r));
-
-p.get(2).setXvel(xvel);
-yvel =p.get(2).getYpos() - ((4 * pi * p.get(2).getYpos() * dt )/(r*r*r));
-p.get(2).setYvel(yvel);
-xpos=p.get(2).getXpos()+p.get(2).getXvel() * dt; 
-ypos=p.get(2).getYpos()+p.get(2).getYvel() * dt; 
-p.get(2).setXpos(xpos);
-p.get(2).setYpos(xpos);
-
-txpos[2][loc]= xpos;
-typos[2][loc]= ypos;
-
-// Earth 3 body problem
-
-// Earth un effected orbit
-r = Math.squrt((p.get(1).getXpos() * p.get(1).getXpos() ) + (p.get(1).getYpos() * p.get(1).getYpos() ));
-
-xvel =p.get(1).getXpos() - ((4 * pi * p.get(1).getXpos() * dt )/(r*r*r));
-
-yvel =p.get(2).getYpos() - ((4 * pi * p.get(1).getYpos() * dt )/(r*r*r));
+// new
+for(int n =0; n<1000;n++){
+for(int i=0;i<p.size();i++){
+	for(int t=0;t<p.size()-1;t++){
+		r = getDist(i,t);
+if(t!=i){
+forcesX[i][t]= calcForceX(i,t,r);
+forcesY[i][t]= calcForceY(i,t,r);
 
 
-// Effect added 
-
-xvel = xvel -(((4*pi*)*(4*pi*))*(p.get(2).getMass()/p.get(1).getMass()) * ((p.get(1).getXpos() - p.get(2).getXpos() ) / (r*r*r)));
-xpos = p.get(1).getXpos() + xvel * dt;
-
-yvel = yvel -(((4*pi*)*(4*pi*))*(p.get(2).getMass()/p.get(1).getMass()) * ((p.get(1).getYpos() - p.get(2).getYpos() ) / (r*r*r)));
-ypos = p.get(1).getYpos() + yvel * dt;
-
-p.get(1).setXpos(xpos);
-p.get(1).setYpos(xpos);
-
-txpos[1][loc]= xpos;
-typos[1][loc]= ypos;
+}
 
 }
 
 
-
-
-
-
-                      //    frame.setContentPane(plot);
-                        //  frame.setVisible(true);
-                          //makes it appear semi centered
-                          frame.setLocation(250, 250);
-                          frame.setSize(600, 600);
-                          for(int i=i;i<p.size();i++)
-                        	  for(int t=0;t<1000;t++)
-                        		  System.out.println(txpos[i][t] + " " + typos[i][t]);
-                          
 }
+Double forceTX[] = new Double[p.size()];
+for(int t=0;t<p.size();t++){
+for(int i=0;i<p.size()-1;i++){
+		forceTX[t]+=forcesX[t][i];
+	
+}
+}
+
+Double forceTY[] = new Double[p.size()];
+for(int t=0;t<p.size();t++){
+for(int i=0;i<p.size()-1;i++){
+		forceTY[t]+=forcesY[t][i];
+	
+}
+}
+
+for(int i=1;i<p.size();i++){
+	Double temp;
+	temp = dt * forceTX[i] / p.get(i).getMass();
+	p.get(i).setXvel(temp);
+	temp = dt * forceTY[i] / p.get(i).getMass();
+	p.get(i).setYvel(temp);
+	
+	
+	temp = calcXpos(p.get(i).getXvel(),i);
+	p.get(i).setXpos(temp);
+	
+	temp = calcYpos(p.get(i).getYvel(),i);
+	p.get(i).setYpos(temp);
+}
+	for(int w=0;w<p.size();w++){
+		System.out.println(p.get(w).getXpos() + " " + p.get(w).getYpos());
+		System.out.println("");
+	}
+	
+}
+
+}
+
+
+private double getDist(int i, int t) {
+				Double temp1;
+				Double temp2;
+				temp1 = (p.get(i).getXpos()- p.get(t).getXpos()) * (p.get(i).getXpos()- p.get(t).getXpos());
+				temp2 = (p.get(i).getYpos()- p.get(t).getYpos()) * (p.get(i).getYpos()- p.get(t).getYpos());
+				return Math.sqrt(temp1 + temp2);
+			}
+
+public Double calcForceX(int p1, int p2,Double r){
+Double G = 16197000000.0; 
+Double temp;
+
+temp = G* p.get(p1).getMass() * p.get(p2).getMass() *(p.get(p1).getXpos()- p.get(p2).getXpos());
+
+temp/=(r*r*r);
+return (temp * (p.get(p2).getXpos() - p.get(p1).getXpos() )) /r;
+}
+
+public Double calcForceY(int p1, int p2,Double r){
+Double G = 16197000000.00; 
+Double temp;
+
+temp = G* p.get(p1).getMass() * p.get(p2).getMass() *(p.get(p1).getYpos()- p.get(p2).getYpos());
+
+temp/=(r*r*r);
+return (temp * (p.get(p2).getYpos() - p.get(p1).getYpos() )) /r;
+}
+
+public Double calcXpos(Double vel, int p1){
+Double temp;
+
+temp = (p.get(p1).getXpos())-(vel* dt);
+return temp;
+
+}
+
+public Double calcYpos(Double vel, int p1){
+Double temp;
+
+temp = p.get(p1).getYpos() - (vel* dt);
+return temp;
+
+}
+
+public Double calcXvel(Double Fx, int p1)
+{
+
+	Double temp;
+	temp = dt* (Fx / p.get(p1).getMass());
+	
+	return temp;
+	
+}
+
+public Double calcYvel(Double Fy, int p1)
+{
+
+	Double temp;
+	temp = dt* (Fy / p.get(p1).getMass());
+	
+	return temp;
+	
+}
+
 }
  
- 
-

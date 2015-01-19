@@ -1,20 +1,20 @@
-
 import javax.swing.JFrame;
 
 import java.util.ArrayList;
-//import org.math.plot.*;
+
+import org.math.plot.*;
            
  
 public class orbits {
  
 
-//Plot2Dpanel plot = new Plot2DPanel();
-  JFrame frame = new JFrame("");
+Plot2DPanel plot = new Plot2DPanel();
+  static JFrame frame = new JFrame("");
             
-        
+        Double FXpos[][]= new Double[2][1000];
+            Double FYpos[][]= new Double[2][1000];
 ArrayList<planets> p = new ArrayList<planets>();
- Double [][] txpos = new Double[p.size()][1000];
- Double [][] typos = new Double[p.size()][1000];
+
  
             double pi = 3.14159;
             Double dt = .001;
@@ -25,6 +25,11 @@ ArrayList<planets> p = new ArrayList<planets>();
             
             a.nbody();
             
+            
+            	
+            
+            
+   
  
 }
      
@@ -77,21 +82,36 @@ forcesY[i][t]= calcForceY(i,t,r);
 
 
 }
-
+else{
+	forcesX[i][t]=0.0;
+	forcesY[i][t]=0.0;
+}
 }
 
 
+} 
+
+for(int i=0;i<p.size();i++){
+	for(int t=0;t<p.size()-1;t++){
+		System.out.println(forcesX[i][t]+" " + forcesY[i][t]);
+		
+	}
 }
 Double forceTX[] = new Double[p.size()];
+Double test;
 for(int t=0;t<p.size();t++){
+	test=0.0;
 for(int i=0;i<p.size()-1;i++){
-		forceTX[t]+=forcesX[t][i];
 	
-}
+		test+=forcesX[t][i];
+	
+}	
+forceTX[t]=test;
 }
 
 Double forceTY[] = new Double[p.size()];
 for(int t=0;t<p.size();t++){
+	forceTY[t]=0.0;
 for(int i=0;i<p.size()-1;i++){
 		forceTY[t]+=forcesY[t][i];
 	
@@ -112,16 +132,25 @@ for(int i=1;i<p.size();i++){
 	temp = calcYpos(p.get(i).getYvel(),i);
 	p.get(i).setYpos(temp);
 }
+/*
 	for(int w=0;w<p.size();w++){
 		System.out.println(p.get(w).getXpos() + " " + p.get(w).getYpos());
 		System.out.println("");
-	}
+		graphN(p.get(w).getXpos(),p.get(w).getYpos());
 	
+	}
+	*/	
+}
+	/*
+	frame.add(plot);
+	 frame.setLocation(250, 250);
+     frame.setSize(600, 600);
+
+    frame.setVisible(true);
+	*/
 }
 
-}
-
-
+//methods !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 private double getDist(int i, int t) {
 				Double temp1;
 				Double temp2;
@@ -185,6 +214,19 @@ public Double calcYvel(Double Fy, int p1)
 	return temp;
 	
 }
+
+private void graphN(double xpos,double ypos){
+    double[] xposs = new double[1];
+    double[] yposs = new double[1];
+    xposs[0]=xpos;
+    yposs[0]=ypos;
+    
+    plot.addScatterPlot("Orbits",xposs,yposs);
+           
+
+
+
+}  
 
 }
  

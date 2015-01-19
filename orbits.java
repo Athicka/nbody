@@ -1,3 +1,4 @@
+
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ Double [][] typos = new Double[p.size()][1000];
  
 
 // new
-//for(int n =0; n<1000;n++){
+for(int n =0; n<1000;n++){
 for(int i=0;i<p.size();i++){
 	for(int t=0;t<p.size();t++){
 		r = getDist(i,t);
@@ -131,7 +132,7 @@ for(int i=1;i<p.size();i++){
 }
 
 		
-//} // N loop
+} // N loop
 	Double testX[] = new Double[2];
 	Double testY[] = new Double[2];
 	testX[0]= p.get(1).getXpos();
@@ -144,8 +145,8 @@ for(int i=1;i<p.size();i++){
      frame.setSize(600, 600);
 
  //   frame.setVisible(true);
-		System.out.println(p.get(2).getXpos());
-	System.out.println(p.get(2).getYpos());
+		System.out.println(p.get(1).getXpos());
+	System.out.println(p.get(1).getYpos());
 	System.out.println("");
 }
 
@@ -197,8 +198,8 @@ return temp;
 public Double calcXvel(Double Fx, int p1)
 {
 
-	Double temp;
-	temp = dt* (Fx / p.get(p1).getMass());
+	Double temp = p.get(p1).getXvel();
+	temp += dt* (Fx / p.get(p1).getMass());
 	
 	return temp;
 	
@@ -207,8 +208,8 @@ public Double calcXvel(Double Fx, int p1)
 public Double calcYvel(Double Fy, int p1)
 {
 
-	Double temp;
-	temp = dt* (Fy / p.get(p1).getMass());
+	Double temp = p.get(p1).getYvel();
+	temp += dt* (Fy / p.get(p1).getMass());
 	
 	return temp;
 	

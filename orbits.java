@@ -1,230 +1,148 @@
 
 import javax.swing.JFrame;
-import java.awt.Color;
+
 import java.util.ArrayList;
-
-import org.math.plot.*;
-           
- 
+//import org.math.plot.*;
 public class orbits {
- 
-
-Plot2DPanel plot = new Plot2DPanel();
-  static JFrame frame = new JFrame("");
-            
-        Double FXpos[][]= new Double[2][1000];
-            Double FYpos[][]= new Double[2][1000];
+//Plot2DPanel plot = new Plot2DPanel();
+	Double G = 1.1853E-4;  // <-- Not Correct Units   Double G = 75080000000.0; 
+static JFrame frame = new JFrame(""); 
+Double FXpos[][]= new Double[2][1000];
+Double FYpos[][]= new Double[2][1000];
 ArrayList<planets> p = new ArrayList<planets>();
-
- 
-            double pi = 3.14159;
-            Double dt = .001;
- 
-            public static void main (String [] args){
-            
-            orbits a = new orbits();
-            
-            a.nbody();
-            
-            
-            	
-            
-            
-   
- 
+double pi = 3.14159;
+Double dt = .001;
+public static void main (String [] args){
+orbits a = new orbits();
+a.nbody();
 }
-     
 private void nbody(){
 /*
 no longers mass independent
 will we have to keep track of where jupiter or locaiton of other plantets? Keep track of all locations
 using jupiter to start with 3-body program
-i see how it gets complicated sincde all planets are moving and all pulling on each other.
- 
- 
-force EJ = (-) G * mass J * mass E* (xpos earth - xpos jumpiter)  / distace between planets ^3
- 
-repeat for y but tade out xpos with ypos for jupiter and earth
- 
+i see how it gets complicated since all planets are moving and all pulling on each other.
+force EJ = (-) G * mass J * mass E* (xpos earth - xpos jumpiter) / distace between planets ^3
+repeat for y but trade out xpos with ypos for jupiter and earth
 xpos = earthSunOrbit - xforce
 ypos = earthSUnOrbit - yforce;
- 
-xvel = xVelEarthOrbit -  G * mass jupiter (xpos earth - xpos jupiter)  / distance between planets ^ 3
- 
- 
-*/  p.add(new planets("Sun",332946.0, 0.0,0.0,0.0,0.0));
-p.add(new planets("Earth",1.0,1.0,0.0,2.0,2.0));
-p.add(new planets("Jupiter",5.2,0.0,1.52,1.0,1.0));
-Double [][] txpos = new Double[p.size()][1000];
-Double [][] typos = new Double[p.size()][1000];
-            double xpos;
-        double ypos;
-        double xvel;
-        double yvel;
-        double forcex;
-        double forcey;
-                 double dt=0.01;   
-            int loc =0;
-            Double [][] forcesX = new Double[p.size()][p.size()];
-	Double [][] forcesY = new Double[p.size()][p.size()];
-	
-            double r;
-        
- 
+xvel = xVelEarthOrbit - G * mass jupiter (xpos earth - xpos jupiter) / distance between planets ^ 3
+
+*/ p.add(new planets("Sun",332946.0, 0.0,0.0,0.0,0.0));
+p.add(new planets("Earth",1.0,1.0,0.0,0.0,2.0 * pi));
+p.add(new planets("Jupiter",5.2,0.0,1.52,-1.0 * pi,0.0));
 
 // new
-for(int n =0; n<1000;n++){
-for(int i=0;i<p.size();i++){
-	for(int t=0;t<p.size();t++){
-		r = getDist(i,t);
-		
-if(t!=i){
-forcesX[i][t]= calcForceX(i,t,r);
-forcesY[i][t]= calcForceY(i,t,r);
+
+for(int n=0;n<1000;n++){
+
+Double temp;
+/*
+temp = calcXvel(0);
+p.get(0).setXvel(temp);
+temp = calcYvel(0);
+p.get(0).setYvel(temp);
+*/ //										movement of sun
+temp =calcXvel(1);
+p.get(1).setXvel(temp);
+temp =calcYvel(1);
+p.get(1).setYvel(temp);
+
+temp =calcXvel(2);
+p.get(2).setXvel(temp);
+temp =calcYvel(2);
+p.get(2).setYvel(temp);
 
 
-}
-else{
-	forcesX[i][t]=0.0;
-	forcesY[i][t]=0.0;
-}
-}
-	
 
-} 
+temp = calcXpos(p.get(1).getXvel(),1);
+p.get(1).setXpos(temp);
+temp = calcYpos(p.get(1).getYvel(),1);
+p.get(1).setYpos(temp);
+temp = calcXpos(p.get(2).getXvel(),2);
+p.get(2).setXpos(temp);
+temp = calcYpos(p.get(2).getYvel(),2);
+p.get(2).setYpos(temp);
 
 
-Double forceTX[] = new Double[p.size()];
-Double test;
-for(int t=0;t<p.size();t++){
-	test=0.0;
-for(int i=0;i<p.size();i++){
-	
-		test+=forcesX[t][i];
-	
-}	
-forceTX[t]=test;
-}
-
-Double forceTY[] = new Double[p.size()];
-for(int t=0;t<p.size();t++){
-	forceTY[t]=0.0;
-for(int i=0;i<p.size();i++){
-		forceTY[t]+=forcesY[t][i];
-	
-}
-}
-
-for(int i=1;i<p.size();i++){
-	Double temp;
-	temp =calcXvel(forceTX[i],i);
-	p.get(i).setXvel(temp);
-	temp =calcYvel(forceTY[i],i);
-	p.get(i).setYvel(temp);
-	
-
-	
-	temp = calcXpos(p.get(i).getXvel(),i);
-	p.get(i).setXpos(temp);
-	
-	temp = calcYpos(p.get(i).getYvel(),i);
-	p.get(i).setYpos(temp);
-}
-
-		
+//System.out.println(p.get(1).getXvel() + " " + p.get(1).getYvel()); /////////////////////////////////
+System.out.println(p.get(2).getXpos() + " " + p.get(2).getYpos()); /////////////////////////////////
+System.out.println("");
 } // N loop
-	Double testX[] = new Double[2];
-	Double testY[] = new Double[2];
-	testX[0]= p.get(1).getXpos();
-	testX[0]= p.get(1).getYpos();
-	testX[1]= p.get(2).getXpos();
-	testX[1]= p.get(2).getYpos();
-	graphN(testX , testY);
-	frame.add(plot);
-	 frame.setLocation(250, 250);
-     frame.setSize(600, 600);
 
- //   frame.setVisible(true);
-		System.out.println(p.get(1).getXpos());
-	System.out.println(p.get(1).getYpos());
-	System.out.println("");
+
+//graphN(testX , testY);
+//frame.add(plot);
+//frame.setLocation(250, 250);
+//frame.setSize(600, 600);
+// frame.setVisible(true);
+
 }
-
 //methods !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 private double getDist(int i, int t) {
-				Double temp1;
-				Double temp2;
-				temp1 = (p.get(i).getXpos()- p.get(t).getXpos()) * (p.get(i).getXpos()- p.get(t).getXpos());
-				temp2 = (p.get(i).getYpos()- p.get(t).getYpos()) * (p.get(i).getYpos()- p.get(t).getYpos());
-				return Math.sqrt(temp1 + temp2);
-			}
-
-public Double calcForceX(int p1, int p2,Double r){
-Double G = 75080000000.0; 
-Double temp;
-
-temp =  p.get(p1).getMass() * p.get(p2).getMass() *(p.get(p1).getXpos()- p.get(p2).getXpos());
-
-temp/=(r*r*r);
-return (temp * (p.get(p2).getXpos() - p.get(p1).getXpos() )) /r;
+Double temp1;
+Double temp2;
+temp1 = (p.get(i).getXpos()- p.get(t).getXpos()) * (p.get(i).getXpos()- p.get(t).getXpos());
+temp2 = (p.get(i).getYpos()- p.get(t).getYpos()) * (p.get(i).getYpos()- p.get(t).getYpos());
+return Math.sqrt(temp1 + temp2);
 }
 
-public Double calcForceY(int p1, int p2,Double r){
-Double G = 75080000000.0; 
+public Double calcXpos(Double vel,int P){
 Double temp;
-
-temp =  p.get(p1).getMass() * p.get(p2).getMass() *(p.get(p1).getYpos()- p.get(p2).getYpos());
-
-temp/=(r*r*r);
-return (temp * (p.get(p2).getYpos() - p.get(p1).getYpos() )) /r;
-}
-
-public Double calcXpos(Double vel, int p1){
-Double temp;
-
-temp = ((p.get(p1).getXpos())+vel)* dt;
+temp = (p.get(P).getXpos())+vel* dt;
 return temp;
-
 }
-
-public Double calcYpos(Double vel, int p1){
+public Double calcYpos(Double vel, int P){
 Double temp;
-
-temp = (p.get(p1).getYpos())+(vel* dt);
+temp = p.get(P).getYpos()+(vel* dt);
 return temp;
-
 }
-
-public Double calcXvel(Double Fx, int p1)
+public Double calcXvel(int i)
 {
-
-	Double temp = p.get(p1).getXvel();
-	temp += dt* (Fx / p.get(p1).getMass());
+	int OP;
+	if(i==2)
+		OP =1;
+	else
+		OP = 2;
+		
+	Double temp,temp2;
+	Double vel= p.get(i).getXvel();
+	temp = (G * p.get(0).getMass()* (p.get(i).getXpos())) * dt;
+	temp = temp /(getDist(i,0) *getDist(i,0) *getDist(i,0));
+	temp2 = (G  * p.get(OP).getMass() * (p.get(i).getXpos() - p.get(OP).getXpos())) * dt;
+	temp2 = temp2/ (getDist(i,OP) * getDist(i,OP) * getDist(i,OP));
+	vel = vel - temp - temp2;
 	
-	return temp;
+	return vel;
 	
 }
-
-public Double calcYvel(Double Fy, int p1)
+public Double calcYvel(int i)
 {
-
-	Double temp = p.get(p1).getYvel();
-	temp += dt* (Fy / p.get(p1).getMass());
+	int OP;
+	if(i==2)
+		OP =1;
+	else
+		OP = 2;
+		
+	Double temp,temp2;
+	Double vel= p.get(i).getYvel();
+	temp = (G  * p.get(0).getMass()* (p.get(i).getYpos())) * dt;
+	temp = temp /(getDist(i,0) *getDist(i,0) *getDist(i,0));
 	
-	return temp;
+	temp2 = (G *  p.get(OP).getMass() * (p.get(i).getYpos() - p.get(OP).getYpos())) * dt;
+	temp2 = temp2/ (getDist(i,OP) * getDist(i,OP) * getDist(i,OP));
+	
+	vel = vel - temp - temp2;
+	
+	return vel;
 	
 }
-
+/*              
 private void graphN(Double xpos[],Double ypos[]){
- 
-   double temp[][]= new double[xpos.length][ypos.length];
-
-    plot.addScatterPlot("Orbits",Color.blue,temp);
-         frame.add(plot);
-
-
-
-}  
+double temp[][]= new double[xpos.length][ypos.length];
+plot.addScatterPlot("Orbits",Color.blue,temp);
+frame.add(plot);
+}
+*/
 
 }
- 
